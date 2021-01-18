@@ -26,6 +26,8 @@ def welcomescreen():
     """
     print("Witaj w aplikacji monitorującej twoje wydatki")
     print_base_data()
+    #funkcja tworzaca plik kategorie.txt
+    open('kategorie.txt', 'a').close()
 
 
 # Funkcje zarzadzajace programem
@@ -94,7 +96,7 @@ def insert_expenses():
                 insert_expenses()
         # wprowadzenie kategorii wydatkow
         # TODO: Wybieramy kategorie (1-n) z zapisanych w pliku
-        filesize = os.path.getsize("sample.txt")
+        filesize = os.path.getsize("kategorie.txt")
 
         if filesize == 0:
 
@@ -106,14 +108,17 @@ def insert_expenses():
                 for line in lines:
                     print(line)
                 category = input("Wprowadz numer kategorii:")
+
                 try:
-                    category=lines[input-1]
+                    category=lines[int(category)-1]
+                    save_expense_to_csv(expense_date, category, expense)
+                    print("Wydatki wprowadzone pomyslnie")
                 except:
+                        # komunikat o bledzie
                         print("podaj poprawny numer kategorii")
                         insert_expenses()
-        save_expense_to_csv(expense_date, category, expense)
-        # komunikat o bledzie
-        print("Wydatki wprowadzone pomyslnie")
+
+
         sleep(2)
         # Wyswietlenie ponownie menu wydatkow
         manage_expenses_menu()
@@ -123,6 +128,14 @@ def insert_expenses():
 def delete_expenses():
     """
     Funkcja usuwająca wydatki
+    :return:
+    """
+    print("xd")
+
+# funkcja wyswietlajaca wydatki
+def print_expenses():
+    """
+    TU WSTAW OPIS FUNKCJI
     :return:
     """
     print("xd")
@@ -142,13 +155,6 @@ def save_expense_to_csv(expense_date, category, expense):
         writer.writerow(row_value)
 
 
-# funkcja wyswietlajaca wydatki
-def print_expenses():
-    """
-    TU WSTAW OPIS FUNKCJI
-    :return:
-    """
-    print("xd")
 
 
 # Funkcje zarzadzania kategoriami:
@@ -319,3 +325,4 @@ def main():
     while option != 3:
         menu()
 
+main()
