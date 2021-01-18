@@ -16,7 +16,7 @@ def welcomescreen():
     :return:
     """
     print("Witaj w aplikacji monitorującej twoje wydatki")
-    Print_Base_Data()
+    print_base_data()
 
 
 # Funkcje zarzadzajace programem
@@ -57,34 +57,34 @@ def insert_expenses():
     TU WSTAW OPIS FUNKCJI
     :return:
     """
-    Expense = 1
+    expense = 1
     # petla zeby wprowadzac kategorie do pliku
-    while Expense != "f":
+    while expense != "f":
         # input linijki
-        Wydatek = input("Wprowadz wydatek")
+        wydatek = input("Wprowadz wydatek")
         # sprawdzic czy wydatek to liczba
         # Sprawdzenie czy uzytkownik chce wprowadzic wydatek z dzisiaj
-        ManageDate = input("Czy wydatek jest z dzisiaj? (0 tak)")
-        if ManageDate == "0":
-            ExpenseDate = datetime.date.today()
-            ExpenseDate = ExpenseDate.strftime("%d.%m.%Y")
+        manage_date = input("Czy wydatek jest z dzisiaj? (0 tak)")
+        if manage_date == "0":
+            expense_date = datetime.date.today()
+            expense_date = expense_date.strftime("%d.%m.%Y")
 
         else:
             # jezeli nie to uzytkownik wprowadza date
             print("Wprowadz date:")
             # upewnienie sie czy data jest poprawna
             try:
-                DateEntry = input('Wprowadz date w formacie DD-MM-YYYY')
-                day, month, year = map(int, DateEntry.split('-'))
-                ExpenseDate = datetime.date(year, month, day)
-                ExpenseDate = ExpenseDate.strftime("%d.%m.%Y")
+                date_entry = input('Wprowadz date w formacie DD-MM-YYYY')
+                day, month, year = map(int, date_entry.split('-'))
+                expense_date = datetime.date(year, month, day)
+                expense_date = expense_date.strftime("%d.%m.%Y")
             # wyswietlenie bledu
             except:
                 print("Bledna data")
                 insert_expenses()
         # wprowadzenie kategorii wydatkow
-        Kategoria = input("Wprowadz kategorie:")
-        print(ExpenseDate, Kategoria, Wydatek)
+        kategoria = input("Wprowadz kategorie:")
+        print(expense_date, kategoria, wydatek)
         # komunikat o bledzie
         print("Wydatki wprowadzone pomyslnie")
         sleep(2)
@@ -112,7 +112,7 @@ def print_expenses():
 
 # Funkcje zarzadzania kategoriami:
 # Menu zarzadzajace kategoriami
-def Manage_Categories_Menu():
+def manage_categories_menu():
     """
     TU WSTAW OPIS FUNKCJI
     :return:
@@ -126,27 +126,27 @@ def Manage_Categories_Menu():
     print(" [3] Wyswietl kategorie")
     print(" [4] Wroc\n")
     # Uzycie funkcji w zaleznosci od wyboru uzytkownika
-    Option = input()
-    if Option == "1":
+    option = input()
+    if option == "1":
         # wprowadzenie kategorii
-        Insert_Category()
-    elif Option == "2":
+        insert_category()
+    elif option == "2":
         # usuwanie kategorii
-        Delete_Category()
-    elif Option == "3":
+        delete_category()
+    elif option == "3":
         # wyswietlenie kategorii
-        Print_Categories()
-    elif Option == "4":
+        print_categories()
+    elif option == "4":
         # powrot dom menu
         main()
-    elif Option != "":
+    elif option != "":
         print("\n Zly wybor")
-        Manage_Categories_Menu()
+        manage_categories_menu()
 
 
 # Funkcje kategorii
 # Wprowadzanie kategorii do pliku
-def Insert_Category():
+def insert_category():
     """
     TU WSTAW OPIS FUNKCJI
     :return:
@@ -175,11 +175,11 @@ def Insert_Category():
     # odczekanie 2 sekundy,zeby uzytkownik sie zapoznal z komunikatem
     sleep(2)
     # Wyswietlenie ponownie menu kategorii
-    Manage_Categories_Menu()
+    manage_categories_menu()
 
 
 # Usuwanie kategorii z pliku
-def Delete_Category():
+def delete_category():
     """
     TU WSTAW OPIS FUNKCJI
     :return:
@@ -205,11 +205,11 @@ def Delete_Category():
     # odczekanie 2 sekundy,zeby uzytkownik sie zapoznal z komunikatem
     sleep(2)
     # ponowne wyswietlenie menu kategorii
-    Manage_Categories_Menu()
+    manage_categories_menu()
 
 
 # Wyswietlanie kategorii
-def Print_Categories():
+def print_categories():
     """
     TU WSTAW OPIS FUNKCJI
     :return:
@@ -219,11 +219,11 @@ def Print_Categories():
         for x in lines:
             print(x)
         input("Wcisnij klawisz aby kontynuowac")
-        Manage_Categories_Menu()
+        manage_categories_menu()
 
 
 # Podsumowanie wydatkow jako podstawowe dane
-def Print_Base_Data():
+def print_base_data():
     """
     TU WSTAW OPIS FUNKCJI
     :return:
@@ -262,7 +262,7 @@ def menu():
     if option == "1":
         manage_expenses_menu()
     elif option == "2":
-        Manage_Categories_Menu()
+        manage_categories_menu()
     elif option == "3":
         exit()
     elif option != "":
