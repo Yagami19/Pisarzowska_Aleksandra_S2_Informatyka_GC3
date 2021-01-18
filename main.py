@@ -22,7 +22,7 @@ import csv
 def welcomescreen():
     """
     TU WSTAW OPIS FUNKCJI
-    :return:
+    :return: null
     """
     print("Witaj w aplikacji monitorującej twoje wydatki")
     print_base_data()
@@ -34,8 +34,9 @@ def welcomescreen():
 # Menu zarzadzajace wydatkami
 def manage_expenses_menu():
     """
-    TU WSTAW OPIS FUNKCJI
-    :return:
+    Funkcja obsługująca menu zarządzania wydatkami
+    :param option: parametr do wyboru opcji z menu
+    :return: null
     """
     # wyczyszenie ekranu
     clear_screen()
@@ -63,14 +64,14 @@ def manage_expenses_menu():
 
 def insert_expenses():
     """
-    TU WSTAW OPIS FUNKCJI
+    Funkcja dodawania wyudatków
     :return:
     """
     expense = 1
     # petla zeby wprowadzac kategorie do pliku
     while expense != "f":
         # input linijki
-        wydatek = input("Wprowadz wydatek")
+        expense = input("Wprowadz wydatek")
         # sprawdzic czy wydatek to liczba
         # Sprawdzenie czy uzytkownik chce wprowadzic wydatek z dzisiaj
         manage_date = input("Czy wydatek jest z dzisiaj? (0 tak)")
@@ -93,8 +94,24 @@ def insert_expenses():
                 insert_expenses()
         # wprowadzenie kategorii wydatkow
         # TODO: Wybieramy kategorie (1-n) z zapisanych w pliku
-        kategoria = input("Wprowadz kategorie:")
-        print(expense_date, kategoria, wydatek)
+        filesize = os.path.getsize("sample.txt")
+
+        if filesize == 0:
+
+            print("Plik z kategoriami jest pusty")
+
+        else:
+            with open("kategorie.txt", "r") as file:
+                lines = file.readlines()
+                for line in lines:
+                    print(line)
+                category = input("Wprowadz numer kategorii:")
+                try:
+                    category=lines[input-1]
+                except:
+                        print("podaj poprawny numer kategorii")
+                        insert_expenses()
+        save_expense_to_csv(expense_date, category, expense)
         # komunikat o bledzie
         print("Wydatki wprowadzone pomyslnie")
         sleep(2)
@@ -105,13 +122,13 @@ def insert_expenses():
 # funkcja usuwajaca wydatki
 def delete_expenses():
     """
-    TU WSTAW OPIS FUNKCJI
+    Funkcja usuwająca wydatki
     :return:
     """
     print("xd")
 
 
-def save_expense_to_csv(expense_date, kategoria, wydatek):
+def save_expense_to_csv(expense_date, category, expense):
     """
     Funkcja zapisująca wydatki do pliku wydatki.csv
     :param expense_date: Data wydatku
@@ -119,10 +136,10 @@ def save_expense_to_csv(expense_date, kategoria, wydatek):
     :param wydatek: Kwota wydatku
     :return: NULL
     """
-    wiersz = [expense_date, kategoria, wydatek]
+    row_value = [expense_date, category, expense]
     with open('wydatki.csv', 'a',newline='', encoding='utf-8') as wydatki_csv:
         writer = csv.writer(wydatki_csv)
-        writer.writerow(wiersz)
+        writer.writerow(row_value)
 
 
 # funkcja wyswietlajaca wydatki
@@ -293,7 +310,8 @@ def menu():
 def main():
     """
     TU WSTAW OPIS FUNKCJI
-    :return:
+    :param option: parametr wyboru menu
+    :return: NULL
     """
     option = 0
     clear_screen()
@@ -301,8 +319,3 @@ def main():
     while option != 3:
         menu()
 
-
-# main()
-save_expense_to_csv('2020-01-18', 'Kategoria 1', 2137)
-save_expense_to_csv('2020-01-18', 'Kategoria 2', 1500)
-save_expense_to_csv('2020-01-18', 'Kategoria 69', 6969)
