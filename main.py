@@ -3,7 +3,16 @@ Projekt zaliczeniowy na potrzeby przedmiotu "Programowanie w języku Python"
 Autor: Aleksandra Pisarzowska
 Tytuł: Nazwa projektu
 """
+# TODO: -sprawdzenie poprawnosci wydatku (czy float)
+# TODO: -sprawdzenie poprawnosci wprowadzanej kategorii
+# TODO: -export do csv
+# TODO: -wyswietlanie wydatkow w tym:
+#  *za dzien
+#  *za miesiac
+#  *za rok
+#  *po konkretnej dacie
 import os
+import sys
 from time import sleep
 import datetime
 import csv
@@ -79,10 +88,11 @@ def insert_expenses():
                 expense_date = datetime.date(year, month, day)
                 expense_date = expense_date.strftime("%d.%m.%Y")
             # wyswietlenie bledu
-            except:
+            except ValueError:
                 print("Bledna data")
                 insert_expenses()
         # wprowadzenie kategorii wydatkow
+        # TODO: Wybieramy kategorie (1-n) z zapisanych w pliku
         kategoria = input("Wprowadz kategorie:")
         print(expense_date, kategoria, wydatek)
         # komunikat o bledzie
@@ -99,6 +109,20 @@ def delete_expenses():
     :return:
     """
     print("xd")
+
+
+def save_expense_to_csv(expense_date, kategoria, wydatek):
+    """
+    Funkcja zapisująca wydatki do pliku wydatki.csv
+    :param expense_date: Data wydatku
+    :param kategoria: Kategoria wydatku
+    :param wydatek: Kwota wydatku
+    :return: NULL
+    """
+    wiersz = [expense_date, kategoria, wydatek]
+    with open('wydatki.csv', 'a',newline='', encoding='utf-8') as wydatki_csv:
+        writer = csv.writer(wydatki_csv)
+        writer.writerow(wiersz)
 
 
 # funkcja wyswietlajaca wydatki
@@ -165,7 +189,7 @@ def insert_category():
                 found = any(x == category + "\n" for x in lines)
             with open("kategorie.txt", "a") as file:
                 # jezeli nie to dopisanie kategorii
-                if found != True:
+                if found is not True:
                     file.write(category + "\n")
                 # wyswietlenie komunikatu o bledzie
                 else:
@@ -191,7 +215,7 @@ def delete_category():
         lines = file.readlines()
         found = any(x == category + "\n" for x in lines)
     # sprawdzenie czy kategoria istnieje
-    if found == True:
+    if found is True:
         with open("kategorie.txt", "w") as file:
             for line in lines:
                 # nadpisanie pliku bez podanej kategorii
@@ -216,8 +240,8 @@ def print_categories():
     """
     with open("kategorie.txt", "r") as file:
         lines = file.readlines()
-        for x in lines:
-            print(x)
+        for line in lines:
+            print(line)
         input("Wcisnij klawisz aby kontynuowac")
         manage_categories_menu()
 
@@ -245,9 +269,6 @@ def clear_screen():
     os.system('cls')
 
 
-option = 0
-
-
 def menu():
     """
     TU WSTAW OPIS FUNKCJI
@@ -264,7 +285,7 @@ def menu():
     elif option == "2":
         manage_categories_menu()
     elif option == "3":
-        exit()
+        sys.exit(0)
     elif option != "":
         print("\n Zly wybor")
 
@@ -274,10 +295,14 @@ def main():
     TU WSTAW OPIS FUNKCJI
     :return:
     """
+    option = 0
     clear_screen()
     welcomescreen()
     while option != 3:
         menu()
 
 
-main()
+# main()
+save_expense_to_csv('2020-01-18', 'Kategoria 1', 2137)
+save_expense_to_csv('2020-01-18', 'Kategoria 2', 1500)
+save_expense_to_csv('2020-01-18', 'Kategoria 69', 6969)
